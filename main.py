@@ -1,3 +1,10 @@
+
+def hello_world_test ():
+    print ("Hello world!")
+    pass
+
+
+
 print ("Hello world!")
 
 i = 0
