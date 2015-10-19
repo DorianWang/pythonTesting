@@ -32,7 +32,9 @@ class BinaryTree:
     def add_node(input_data):
         if new_compare:
             if (compare_function(input_data, data)):
-                pass
+                left = BinaryTree(input_data)
+            else:
+                right = BinaryTree(input_data)
     
 
 
