@@ -34,12 +34,12 @@ class BinaryTree:
         
     
     def add_node(self, input_data):
-        """ (function)
+        """ (data_type)
         Adds a new node to the tree. Will create new nodes if required.
         Uses the user set compare function if it has been set.
         """
         if self.new_compare:
-            if (self.compare_function(input_data, data)):
+            if (self.compare_function(input_data, self.data)):
                 if (self.node_left == None):
                     self.node_left = BinaryTree(input_data)
                 else:
@@ -50,7 +50,7 @@ class BinaryTree:
                 else:
                     self.node_right.add_node(input_data)
         else:
-            if (input_data < data):
+            if (input_data < self.data):
                 if (self.node_left == None):
                     self.node_left = BinaryTree(input_data)
                 else:
@@ -59,9 +59,40 @@ class BinaryTree:
                 if (self.node_right == None):
                     self.node_right = BinaryTree(input_data)
                 else:
-                    self.node_right.add_node(input_data)                
+                    self.node_right.add_node(input_data)         
+                    
+                    
+    def _output_tree(self):
+        """ (None) -> list
+        Returns the contents of the tree in the form of a list, from "left to right".
+        This is not flattened
+        """
+        l = []
+        
+        if (self.node_left is not None):
+            l.append(self.node_left._output_tree())
+        
+        l.append([].append(self.data))
+        
+        if (self.node_right is not None):
+            l.append(self.node_left._output_tree())        
+        return l
                 
-                
-    
+    def output_tree(self):
+        """ (None) -> list
+        Returns the contents of the tree in the form of a list, from "left to right".
+        """
+        l = []
+        
+        if (self.node_left is not None):
+            l.append(self.node_left._output_tree())
+        
+        l.append( [].append(self.data))
+        
+        if (self.node_right is not None):
+            l.append(self.node_right._output_tree())
+        
+        print (l)
+        return [item for sublist in l for item in sublist]
 
 
