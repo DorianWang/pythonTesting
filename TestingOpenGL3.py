@@ -4,8 +4,9 @@ from OpenGL.GLU import *
 
 import os
 import threading
+import math
  
-ESCAPE = '\033'
+ESCAPE = b'\x1b'
  
 window = 0
  
@@ -13,7 +14,9 @@ window = 0
 X_AXIS = 0.0
 Y_AXIS = 0.0
 Z_AXIS = 0.0
- 
+
+x = 0
+
 DIRECTION = 1
 
 
@@ -38,16 +41,17 @@ def keyPressed(*args):
  
 def DrawGLScene():
         global X_AXIS,Y_AXIS,Z_AXIS
+        global x
         global DIRECTION
  
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
  
         glLoadIdentity()
-        glTranslatef(0.0,0.0,-6.0)
+        glTranslatef(X_AXIS,0.0,Z_AXIS-6.0)
  
-        glRotatef(X_AXIS,0.01,0.0,0.0)
-        glRotatef(Y_AXIS,0.0,0.01,0.0)
-        glRotatef(Z_AXIS,0.0,0.0,0.01)
+        #glRotatef(X_AXIS,0.01,0.0,0.0)
+        #glRotatef(Y_AXIS,0.0,0.01,0.0)
+        #glRotatef(Z_AXIS,0.0,0.0,0.01)
  
         # Attempt a square based pyramid
         glBegin(GL_TRIANGLES)
@@ -61,52 +65,78 @@ def DrawGLScene():
         
         
         glEnd()
+        
+        glBegin(GL_TRIANGLE_STRIP);	
+        
+        glColor3f(0.1, 0.6, 0.2)
+        
+        glVertex3f( 0.0, 0.0, 0.0 ); #vertex 1
+        glVertex3f( 0.0, 1.0, 0.0 ); #vertex 2
+        glVertex3f( 1.0, 0.0, 0.0 ); #vertex 3
+        glVertex3f( 1.5, 1.0, 0.0 ); #vertex 4
+        
+        glColor3f(0.1, 0.2, 0.7)
+        
+        glVertex3f( 2.0, 0.0, 0.0 ); #vertex 5
+        glVertex3f( 2.0, 1.0, 0.0 ); #vertex 6
+        
+        glColor3f(0.9, 0.3, 0.1)
+        
+        glVertex3f( 2.5, 0.0, 0.0 ); #vertex 7
+        glVertex3f( 2.5, 1.0, 4.0 ); #vertex 8
+        
+        glEnd();        
  
         # Draw Cube (multiple quads)
-        glBegin(GL_QUADS)
+        #glBegin(GL_QUADS)
  
-        glColor3f(0.0,1.0,0.0)
-        glVertex3f( 1.0, 1.0,-1.0)
-        glVertex3f(-1.0, 1.0,-1.0)
-        glVertex3f(-1.0, 1.0, 1.0)
-        glVertex3f( 1.0, 1.0, 1.0) 
+        #glColor3f(0.0,1.0,0.0)
+        #glVertex3f( 1.0, 1.0,-1.0)
+        #glVertex3f(-1.0, 1.0,-1.0)
+        #glVertex3f(-1.0, 1.0, 1.0)
+        #glVertex3f( 1.0, 1.0, 1.0) 
  
-        glColor3f(1.0,0.0,0.0)
-        glVertex3f( 1.0,-1.0, 1.0)
-        glVertex3f(-1.0,-1.0, 1.0)
-        glVertex3f(-1.0,-1.0,-1.0)
-        glVertex3f( 1.0,-1.0,-1.0) 
+        #glColor3f(1.0,0.0,0.0)
+        #glVertex3f( 1.0,-1.0, 1.0)
+        #glVertex3f(-1.0,-1.0, 1.0)
+        #glVertex3f(-1.0,-1.0,-1.0)
+        #glVertex3f( 1.0,-1.0,-1.0) 
  
-        glColor3f(0.0,1.0,0.0)
-        glVertex3f( 1.0, 1.0, 1.0)
-        glVertex3f(-1.0, 1.0, 1.0)
-        glVertex3f(-1.0,-1.0, 1.0)
-        glVertex3f( 1.0,-1.0, 1.0)
+        #glColor3f(0.0,1.0,0.0)
+        #glVertex3f( 1.0, 1.0, 1.0)
+        #glVertex3f(-1.0, 1.0, 1.0)
+        #glVertex3f(-1.0,-1.0, 1.0)
+        #glVertex3f( 1.0,-1.0, 1.0)
  
-        glColor3f(1.0,1.0,0.0)
-        glVertex3f( 1.0,-1.0,-1.0)
-        glVertex3f(-1.0,-1.0,-1.0)
-        glVertex3f(-1.0, 1.0,-1.0)
-        glVertex3f( 1.0, 1.0,-1.0)
+        #glColor3f(1.0,1.0,0.0)
+        #glVertex3f( 1.0,-1.0,-1.0)
+        #glVertex3f(-1.0,-1.0,-1.0)
+        #glVertex3f(-1.0, 1.0,-1.0)
+        #glVertex3f( 1.0, 1.0,-1.0)
  
-        glColor3f(0.0,0.0,1.0)
-        glVertex3f(-1.0, 1.0, 1.0) 
-        glVertex3f(-1.0, 1.0,-1.0)
-        glVertex3f(-1.0,-1.0,-1.0) 
-        glVertex3f(-1.0,-1.0, 1.0) 
+        #glColor3f(0.0,0.0,1.0)
+        #glVertex3f(-1.0, 1.0, 1.0) 
+        #glVertex3f(-1.0, 1.0,-1.0)
+        #glVertex3f(-1.0,-1.0,-1.0) 
+        #glVertex3f(-1.0,-1.0, 1.0) 
  
-        glColor3f(1.0,0.0,1.0)
-        glVertex3f( 1.0, 1.0,-1.0) 
-        glVertex3f( 1.0, 1.0, 1.0)
-        glVertex3f( 1.0,-1.0, 1.0)
-        glVertex3f( 1.0,-1.0,-1.0)
+        #glColor3f(1.0,0.0,1.0)
+        #glVertex3f( 1.0, 1.0,-1.0) 
+        #glVertex3f( 1.0, 1.0, 1.0)
+        #glVertex3f( 1.0,-1.0, 1.0)
+        #glVertex3f( 1.0,-1.0,-1.0)
 
-        glEnd()
+        #glEnd()
  
  
-        X_AXIS = X_AXIS - 0.01
-        Z_AXIS = Z_AXIS - 0.01
- 
+        #X_AXIS = -X_AXIS - 0.02
+        Z_AXIS = math.sin(x) #Z_AXIS - 0.04
+        
+        x = x + 0.001
+        
+        if (x > 40):
+                x = 0
+        
         glutSwapBuffers()
 
 
