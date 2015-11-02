@@ -62,37 +62,41 @@ class BinaryTree:
                     self.node_right.add_node(input_data)         
                     
                     
-    def _output_tree(self):
+    def _output_tree(self, l):
         """ (None) -> list
         Returns the contents of the tree in the form of a list, from "left to right".
         This is not flattened
         """
-        l = []
         
         if (self.node_left is not None):
-            l.append(self.node_left._output_tree())
+            self.node_left._output_tree(l)
         
-        l.append([].append(self.data))
+        l.append(self.data)
         
         if (self.node_right is not None):
-            l.append(self.node_left._output_tree())        
-        return l
+            self.node_right._output_tree(l)      
                 
     def output_tree(self):
         """ (None) -> list
         Returns the contents of the tree in the form of a list, from "left to right".
         """
-        l = []
+        l = list()
+
         
         if (self.node_left is not None):
-            l.append(self.node_left._output_tree())
+            self.node_left._output_tree(l)
         
-        l.append( [].append(self.data))
+        l.append(self.data)
         
         if (self.node_right is not None):
-            l.append(self.node_right._output_tree())
+            self.node_right._output_tree(l)
         
         print (l)
-        return [item for sublist in l for item in sublist]
+
+
+
+
+
+
 
 
