@@ -2,7 +2,7 @@ class BinaryTree:
     
     node_left = None
     node_right = None
-    compare_function = 0
+    compare_function = None
     new_compare = False
     data = None
     
@@ -27,9 +27,9 @@ class BinaryTree:
         the correct order.
         """
         self.set_compare(new_compare_function)
-        if (self.node_left != None):
+        if (self.node_left is not None):
             self.node_left.set_compare_all(new_compare_function)
-        if (self.node_right != None):
+        if (self.node_right is not None):
             self.node_right.set_compare_all(new_compare_function)
         
     
@@ -91,7 +91,7 @@ class BinaryTree:
         if (self.node_right is not None):
             self.node_right._output_tree(l)
         
-        print (l)
+        return l
 
 
 

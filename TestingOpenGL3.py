@@ -49,7 +49,7 @@ def DrawGLScene():
         glLoadIdentity()
         glTranslatef(X_AXIS,0.0,Z_AXIS-6.0)
  
-        #glRotatef(X_AXIS,0.01,0.0,0.0)
+        glRotatef(X_AXIS,0.1,0.0,0.0)
         #glRotatef(Y_AXIS,0.0,0.01,0.0)
         #glRotatef(Z_AXIS,0.0,0.0,0.01)
  
@@ -129,12 +129,12 @@ def DrawGLScene():
         #glEnd()
  
  
-        #X_AXIS = -X_AXIS - 0.02
+        X_AXIS = X_AXIS - 0.002
         Z_AXIS = math.sin(x) #Z_AXIS - 0.04
         
         x = x + 0.001
         
-        if (x > 40):
+        if (x > 40 * 3.1415):
                 x = 0
         
         glutSwapBuffers()
