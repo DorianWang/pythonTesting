@@ -1,5 +1,7 @@
 #The first attempt at a string replacement program.
 
+import os
+
 def get_replacement_file(file_name):
     file = open(file_name, 'r')
     string_pairs = {}
@@ -53,16 +55,32 @@ def process_file(old_file_name, new_file_name, rm_dict):
         if (line == "\n" or line == ""):
             continue
         line_tokens = line.split()
-        line_tokens[0] = rm_dict[line_tokens[0]]
+        try:
+            line_tokens[0] = rm_dict[line_tokens[0]]
+        except (KeyError):
+            pass
+            # Key is not in the dictionary. It should be ignored
+
         for string in line_tokens:
-            out_file.write(string)
+            out_file.write(string + " ")
         out_file.write("\n")
 
+def get_dir_files(mypath):
+    dir_list = os.listdir(mypath)
+    all_files = [ f for f in dir_list if os.path.isfile(os.path.join(mypath,f)) 
+                  and f.endswith(".txt") ]
+    return all_files
 
 
 def main():
-    rm_dict = get_replacement_file("testfile.txt")
+    rm_dict = get_replacement_file("dictionary_file/testfile.txt")
     print (rm_dict)
+    files = get_dir_files(".")
+    for file in files:
+        process_file(file, "output_" + file, rm_dict)        
+    
+
+
 
 
 if __name__ == "__main__":
